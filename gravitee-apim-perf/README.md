@@ -83,7 +83,7 @@ If you have changed the default admin password, make sure to reflect the changes
 
 #### Grafana
 
-Metrics collection and visualization is based on grafana. A `docker-compose` file is there to quickly run the whole metrics stack.
+Metrics collection and visualization is based on grafana. A `nerdctl compose` file is there to quickly run the whole metrics stack.
 To start the whole stack, just type the following command:
 
 ```shell

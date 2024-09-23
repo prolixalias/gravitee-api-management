@@ -80,48 +80,48 @@ endif
 build: # Build docker images (require install to be run before)
 	cd .working/apim-rest-api && docker build --build-arg GRAVITEEIO_VERSION=$(GIO_APIM_VERSION) -t $(GIO_APIM_MANAGEMENT_API_IMAGE):$(GIO_APIM_VERSION) .
 
-env: # Set up .env file for gravitee docker-compose
+env: # Set up .env file for gravitee nerdctl compose
 	@mkdir -p .working/compose
 	@echo "GIO_APIM_VERSION=$(GIO_APIM_VERSION)" > .working/compose/.env
 
-network: # Create and add an external network to gravitee access management docker-compose
-	@cp docker/compose/docker-compose-dev.yml .working/compose/docker-compose.yml
-	@$(call addNetworkToCompose, ".working/compose/docker-compose.yml",${GIO_APIM_NETWORK});
+network: # Create and add an external network to gravitee access management nerdctl compose
+	@cp docker/compose/nerdctl compose-dev.yml .working/compose/nerdctl compose.yml
+	@$(call addNetworkToCompose, ".working/compose/nerdctl compose.yml",${GIO_APIM_NETWORK});
 	@docker network inspect $(GIO_APIM_NETWORK) &>/dev/null || docker network create --driver bridge $(GIO_APIM_NETWORK)
 
 run: build env network ## Create .env and network then start gravitee API management container
-	@cd .working/compose; docker-compose up -d management_api
+	@cd .working/compose; nerdctl compose up -d management_api
 	@echo "To start and stop, use \"make stop; make start\" command"
 
 start: ## Start gravitee API Management containers
 ifneq ($(wildcard .working/compose),)
-	@cd .working/compose; docker-compose start mongodb elasticsearch management_api
+	@cd .working/compose; nerdctl compose start mongodb elasticsearch management_api
 else
 	@echo "Please use \"make run\" for the first time."
 endif
 
 startMongo: ## Start gravitee API Management mongo container only
 ifneq ($(wildcard .working/compose),)
-	@cd .working/compose; docker-compose start mongodb
+	@cd .working/compose; nerdctl compose start mongodb
 else
 	@echo "Please use \"make run\" for the first time."
 endif
 
 startElastic: ## Start gravitee API Management elasticsearch container only
 ifneq ($(wildcard .working/compose),)
-	@cd .working/compose; docker-compose start elasticsearch
+	@cd .working/compose; nerdctl compose start elasticsearch
 else
 	@echo "Please use \"make run\" for the first time."
 endif
 
 stop: ## Stop gravitee API Management running containers
 ifneq ($(wildcard .working/compose),)
-	@cd .working/compose; docker-compose stop || true
+	@cd .working/compose; nerdctl compose stop || true
 endif
 
 status: ## See API Management containers status
 ifneq ($(wildcard .working/compose),)
-	@cd .working/compose; docker-compose ps
+	@cd .working/compose; nerdctl compose ps
 endif
 
 connectMongo: ## Connect to mongo repository on gravitee database
@@ -151,7 +151,7 @@ deleteElasticData: # remove mongodb data
 
 deleteContainer: # delete container
 ifneq ($(wildcard .working/compose),)
-	@$(shell docker-compose -f .working/compose/docker-compose.yml down &>/dev/null || true)
+	@$(shell nerdctl compose -f .working/compose/nerdctl compose.yml down &>/dev/null || true)
 endif
 
 deleteImage: # delete image

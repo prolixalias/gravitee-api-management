@@ -25,8 +25,8 @@ computeCypressEnvVariables() {
 }
 
 clean() {
-#  For each docker-compose service stop & remove containers & volumes
-  docker-compose -f ./docker/common/docker-compose-base.yml -f ./docker/common/docker-compose-mongo.yml -f ./docker/common/docker-compose-jdbc.yml -f ./docker/common/docker-compose-apis.yml -f ./docker/common/docker-compose-wiremock.yml -f ./docker/common/docker-compose-uis.yml -f ./docker/ui-tests/docker-compose-ui-tests.yml -f ./docker/api-tests/docker-compose-api-tests.yml --project-directory $PWD rm --force --stop -v 2>/dev/null
+#  For each nerdctl compose service stop & remove containers & volumes
+  nerdctl compose -f ./docker/common/nerdctl compose-base.yml -f ./docker/common/nerdctl compose-mongo.yml -f ./docker/common/nerdctl compose-jdbc.yml -f ./docker/common/nerdctl compose-apis.yml -f ./docker/common/nerdctl compose-wiremock.yml -f ./docker/common/nerdctl compose-uis.yml -f ./docker/ui-tests/nerdctl compose-ui-tests.yml -f ./docker/api-tests/nerdctl compose-api-tests.yml --project-directory $PWD rm --force --stop -v 2>/dev/null
 }
 
 if [ -n "$1" ] && [ "$1" = "clean" ]; then
@@ -54,18 +54,18 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   fi
 
   if [ "$mode" = "only-apim" ]; then
-    DB_PROVIDER=$databaseType docker-compose -f ./docker/common/docker-compose-base.yml -f ./docker/common/docker-compose-$databaseType.yml -f ./docker/common/docker-compose-apis.yml -f ./docker/common/docker-compose-wiremock.yml -f ./docker/common/docker-compose-uis.yml --project-directory $PWD up $3
+    DB_PROVIDER=$databaseType nerdctl compose -f ./docker/common/nerdctl compose-base.yml -f ./docker/common/nerdctl compose-$databaseType.yml -f ./docker/common/nerdctl compose-apis.yml -f ./docker/common/nerdctl compose-wiremock.yml -f ./docker/common/nerdctl compose-uis.yml --project-directory $PWD up $3
   elif [ "$mode" = "api-test" ]; then
     if [ "$databaseType" = "bridge" ]; then
-      DB_PROVIDER=$databaseType docker-compose -f ./docker/common/docker-compose-base.yml -f ./docker/common/docker-compose-mongo.yml -f ./docker/common/docker-compose-bridge.yml -f ./docker/common/docker-compose-wiremock.yml -f ./docker/api-tests/docker-compose-api-tests.yml --project-directory $PWD up --abort-on-container-exit --exit-code-from jest-e2e
+      DB_PROVIDER=$databaseType nerdctl compose -f ./docker/common/nerdctl compose-base.yml -f ./docker/common/nerdctl compose-mongo.yml -f ./docker/common/nerdctl compose-bridge.yml -f ./docker/common/nerdctl compose-wiremock.yml -f ./docker/api-tests/nerdctl compose-api-tests.yml --project-directory $PWD up --abort-on-container-exit --exit-code-from jest-e2e
     else
-      DB_PROVIDER=$databaseType docker-compose -f ./docker/common/docker-compose-base.yml -f ./docker/common/docker-compose-$databaseType.yml -f ./docker/common/docker-compose-apis.yml -f ./docker/common/docker-compose-wiremock.yml -f ./docker/api-tests/docker-compose-api-tests.yml --project-directory $PWD up --abort-on-container-exit --exit-code-from jest-e2e
+      DB_PROVIDER=$databaseType nerdctl compose -f ./docker/common/nerdctl compose-base.yml -f ./docker/common/nerdctl compose-$databaseType.yml -f ./docker/common/nerdctl compose-apis.yml -f ./docker/common/nerdctl compose-wiremock.yml -f ./docker/api-tests/nerdctl compose-api-tests.yml --project-directory $PWD up --abort-on-container-exit --exit-code-from jest-e2e
     fi
   elif [ "$mode" = "ui-test" ]; then
     computeCypressEnvVariables
-    DB_PROVIDER=$databaseType docker-compose -f ./docker/common/docker-compose-base.yml -f ./docker/common/docker-compose-$databaseType.yml -f ./docker/common/docker-compose-apis.yml -f ./docker/common/docker-compose-wiremock.yml -f ./docker/common/docker-compose-uis.yml -f ./docker/ui-tests/docker-compose-ui-tests.yml --project-directory $PWD up --no-build --abort-on-container-exit --exit-code-from cypress
+    DB_PROVIDER=$databaseType nerdctl compose -f ./docker/common/nerdctl compose-base.yml -f ./docker/common/nerdctl compose-$databaseType.yml -f ./docker/common/nerdctl compose-apis.yml -f ./docker/common/nerdctl compose-wiremock.yml -f ./docker/common/nerdctl compose-uis.yml -f ./docker/ui-tests/nerdctl compose-ui-tests.yml --project-directory $PWD up --no-build --abort-on-container-exit --exit-code-from cypress
   fi
-  # Save exit code of docker-compose
+  # Save exit code of nerdctl compose
   status=$?
 
   # Extract logs from containers if it exists
@@ -80,7 +80,7 @@ if [ -n "$1" ] && [ -n "$2" ]; then
   docker logs gravitee-apim-e2e-jest-e2e-1 > ./.logs/jest.log || true
   # TODO: Need to add DB logs
 
-  # Use exit code of docker-compose
+  # Use exit code of nerdctl compose
   exit $status
 
 else

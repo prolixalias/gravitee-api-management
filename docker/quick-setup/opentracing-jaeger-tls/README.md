@@ -1,7 +1,7 @@
 
 # OpenTracing With Jaeger
 
-This docker-compose allows you to run APIM with OpenTracing activated and Jaeger as a tracer.
+This nerdctl compose allows you to run APIM with OpenTracing activated and Jaeger as a tracer.
 
 You can call your APIs through your gateway classically (for example: `http://localhost:8082/myapi`). 
 
@@ -13,10 +13,10 @@ You can call your APIs through your gateway classically (for example: `http://lo
 
 2. Next, **copy the .ZIP file into `opentracing-jaeger/.plugins` directory** using the command below:
 
-`APIM_VERSION={APIM_VERSION} docker-compose up -d ` 
+`APIM_VERSION={APIM_VERSION} nerdctl compose up -d ` 
 
 3. Be sure to fetch last version of images by running this command: 
-`export APIM_VERSION={APIM_VERSION} && docker-compose down -v && docker-compose pull && docker-compose up`
+`export APIM_VERSION={APIM_VERSION} && nerdctl compose down -v && nerdctl compose pull && nerdctl compose up`
 
 ## How To See Your Traces 
 

@@ -1,6 +1,6 @@
 # Quick APIM setup
 
-You will find here a collection of docker-compose to easily test installations of APIM with Redis rate limit.
+You will find here a collection of nerdctl compose to easily test installations of APIM with Redis rate limit.
 
 ## Generate SSL key and certificates
 

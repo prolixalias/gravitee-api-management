@@ -30,7 +30,7 @@ gravitee-**-webui/node/
 
 # used in makefile as working directory
 .working/
-# used in makefile for docker-compose quick setups
+# used in makefile for nerdctl compose quick setups
 docker/quick-setup/**/.data
 docker/quick-setup/**/.certificates
 docker/quick-setup/**/.plugins

@@ -1,6 +1,6 @@
 # TCP
 
-Here is a docker-compose with a gateway exposing a TCP server on port 4082, allowing to deploy and consume TCP-proxy APIs.
+Here is a nerdctl compose with a gateway exposing a TCP server on port 4082, allowing to deploy and consume TCP-proxy APIs.
 
 ## How to run ?
 
@@ -8,14 +8,14 @@ Here is a docker-compose with a gateway exposing a TCP server on port 4082, allo
 
 > ⚠️ You need a license file with 'Sharding tags' feature enabled to be able to run Enterprise Edition of APIM. Do not forget to add your license file into `./.license`.  
 
-`APIM_VERSION={APIM_VERSION} docker-compose up -d ` 
+`APIM_VERSION={APIM_VERSION} nerdctl compose up -d ` 
 
 To be sure to fetch last version of images, you can do
-`export APIM_VERSION={APIM_VERSION} && docker-compose down -v && docker-compose pull && docker-compose up`
+`export APIM_VERSION={APIM_VERSION} && nerdctl compose down -v && nerdctl compose pull && nerdctl compose up`
 
 ### Architecture description
 
-This docker-compose deploys two gateways:
+This nerdctl compose deploys two gateways:
 
 - `gateway` service is the unsecured gateway
   - it acts as a regular gateway listening HTTP calls on port `8082`

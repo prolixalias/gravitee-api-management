@@ -23,25 +23,25 @@ help: ## Print this message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(makefile) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-35s\033[0m %s\n", $$1, $$2}'
 
 all: ## Run API Management with redis server
-	cd ./quick-setup/apim-redis && docker-compose down -v && docker-compose pull && docker-compose up -d
+	cd ./quick-setup/apim-redis && nerdctl compose down -v && nerdctl compose pull && nerdctl compose up -d
 
 start-all: ## Start API Management with redis server
-	cd ./quick-setup/apim-redis && docker-compose start
+	cd ./quick-setup/apim-redis && nerdctl compose start
 
 stop-all: ## Stop API Management with redis server
-	cd ./quick-setup/apim-redis && docker-compose stop
+	cd ./quick-setup/apim-redis && nerdctl compose stop
 
 redis: ## Run only the redis service
-	cd ./quick-setup/apim-redis && docker-compose up --force-recreate -d redis
+	cd ./quick-setup/apim-redis && nerdctl compose up --force-recreate -d redis
 
 start-redis: ## Start only the redis service
-	cd ./quick-setup/apim-redis && docker-compose start redis
+	cd ./quick-setup/apim-redis && nerdctl compose start redis
 
 stop-redis: ## Stop only the redis service
-	cd ./quick-setup/apim-redis && docker-compose stop redis
+	cd ./quick-setup/apim-redis && nerdctl compose stop redis
 
 down: ## Remove all.
-	cd ./quick-setup/apim-redis && docker-compose down
+	cd ./quick-setup/apim-redis && nerdctl compose down
 
 .DEFAULT_GOAL := help
 .PHONY: all, start-all, stop-all, redis, start-redis, stop-redis, down

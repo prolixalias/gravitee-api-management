@@ -1,6 +1,6 @@
 # Keycloak
 
-Here is a docker-compose to run APIM with a Keycloak container available as an Identity Provider.
+Here is a nerdctl compose to run APIM with a Keycloak container available as an Identity Provider.
 
 ---
 > For more information, please read :
@@ -22,7 +22,7 @@ You can read how to [configure the Identity provider following documentation](ht
 ### How to test an api with `gravitee-resource-oauth2-provider-keycloak`
 
 1. Download the resource `./download-plugins-ext.sh`
-2. Start the stack with `APIM_VERSION={APIM_VERSION} docker-compose up -d`
+2. Start the stack with `APIM_VERSION={APIM_VERSION} nerdctl compose up -d`
 3. Import the `secured-api.json`
 4. Start and deploy the api
 5. Add `gravitee-client` as client_id of your app.
@@ -43,8 +43,8 @@ curl --location --request GET 'http://localhost:8082/worldtimeapi' \
 
 ## How to run ?
 
-`APIM_VERSION={APIM_VERSION} docker-compose up -d ` 
+`APIM_VERSION={APIM_VERSION} nerdctl compose up -d ` 
 
 To be sure to fetch last version of images, you can do
-`export APIM_VERSION={APIM_VERSION} && docker-compose down -v && docker-compose pull && docker-compose up`
+`export APIM_VERSION={APIM_VERSION} && nerdctl compose down -v && nerdctl compose pull && nerdctl compose up`
 

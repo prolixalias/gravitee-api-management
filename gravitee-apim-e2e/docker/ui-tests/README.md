@@ -1,6 +1,6 @@
 # E2E UI tests
 
-Here is a docker-compose to run APIM E2E UI tests using jest, with MongoDB as database.
+Here is a nerdctl compose to run APIM E2E UI tests using jest, with MongoDB as database.
 
 ## How to run ?
 
